@@ -1,0 +1,13 @@
+{"type":"user","uuid":"u1-s2","parentUuid":null,"sessionId":"0a000001-0000-4000-8000-000000000002","timestamp":"2026-06-02T09:00:00.000Z","cwd":"C:/dev/demo-app","gitBranch":"main","version":"2.1.170","entrypoint":"cli","isSidechain":false,"userType":"external","message":{"role":"user","content":[{"type":"text","text":"Show me every record type"}]}}
+{"type":"assistant","uuid":"a1-s2","parentUuid":"u1-s2","sessionId":"0a000001-0000-4000-8000-000000000002","timestamp":"2026-06-02T09:00:05.000Z","cwd":"C:/dev/demo-app","gitBranch":"main","version":"2.1.170","entrypoint":"cli","isSidechain":false,"userType":"external","requestId":"req_010","message":{"role":"assistant","model":"claude-fable-5","content":[{"type":"text","text":"Here is a synthetic record of every type."}],"usage":{"input_tokens":10,"output_tokens":10,"cache_read_input_tokens":0,"cache_creation_input_tokens":0}}}
+{"type":"attachment","uuid":"at1-s2","parentUuid":"u1-s2","sessionId":"0a000001-0000-4000-8000-000000000002","timestamp":"2026-06-02T09:00:06.000Z","cwd":"C:/dev/demo-app","gitBranch":"main","version":"2.1.170","entrypoint":"cli","isSidechain":false,"userType":"external","attachment":{"type":"file","fileName":"diagram.png"}}
+{"type":"queue-operation","operation":"enqueue","content":"next queued task","sessionId":"0a000001-0000-4000-8000-000000000002","timestamp":"2026-06-02T09:00:07.000Z"}
+{"type":"last-prompt","lastPrompt":"Show me every record type","leafUuid":"a1-s2","sessionId":"0a000001-0000-4000-8000-000000000002"}
+{"type":"pr-link","prNumber":7,"prRepository":"demo/demo-app","prUrl":"https://github.com/demo/demo-app/pull/7","sessionId":"0a000001-0000-4000-8000-000000000002","timestamp":"2026-06-02T09:00:08.000Z"}
+{"type":"custom-title","customTitle":"All record types demo","sessionId":"0a000001-0000-4000-8000-000000000002"}
+{"type":"system","subtype":"hook_event","level":"info","content":"synthetic hook ran","sessionId":"0a000001-0000-4000-8000-000000000002","timestamp":"2026-06-02T09:00:09.000Z","uuid":"sy1-s2","parentUuid":"a1-s2","cwd":"C:/dev/demo-app","gitBranch":"main","version":"2.1.170","isSidechain":false,"userType":"external"}
+{"type":"mode","mode":"default","sessionId":"0a000001-0000-4000-8000-000000000002"}
+{"type":"worktree-state","worktreeSession":{"active":false},"sessionId":"0a000001-0000-4000-8000-000000000002"}
+{"type":"file-history-snapshot","messageId":"m1-s2","isSnapshotUpdate":false,"snapshot":{"trackedFileBackups":{"C:/dev/demo-app/src/hello.ts":{"content":"SECRET-MUST-NEVER-BE-READ"}}}}
+{"type":"permission-mode","permissionMode":"acceptEdits","sessionId":"0a000001-0000-4000-8000-000000000002"}
+{"type":"ai-title","aiTitle":"Record type tour","sessionId":"0a000001-0000-4000-8000-000000000002"}
