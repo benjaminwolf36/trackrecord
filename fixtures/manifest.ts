@@ -52,7 +52,7 @@ export const corpus = {
     projects: 2, // demo-app, other-proj
     activeDays: 6, // 06-01,02,03,05,07,08 (UTC)
     longestStreak: 3, // 06-01..03
-    currentStreak: 1, // last active 06-08, "now" 06-09
+    currentStreak: 2, // 06-07..08 run; last active 06-08 is "yesterday" vs now 06-09
     humanPrompts: 10, // excludes toolUseResult, isMeta, isCompactSummary, sidechain
     assistantTurns: 22, // deduped by requestId (req_003 appears twice)
     firstSession: "2026-06-01T10:00:00.000Z",

@@ -1,6 +1,9 @@
 import { defineConfig } from "vitest/config";
 import { resolve } from "node:path";
 
+// Fixture expectations (active days, streaks) are authored in UTC.
+process.env.TZ = "UTC";
+
 export default defineConfig({
   resolve: {
     alias: {
