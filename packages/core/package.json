@@ -26,6 +26,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "diff": "^9.0.0"
+    "diff": "9.0.0"
   }
 }
