@@ -1,0 +1,184 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/benjaminwolf36/trackrecord/schema/v1.json",
+  "title": "trackrecord metrics schema v1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "generatedAt", "source", "output", "delivery", "activity", "tools", "tokens", "git"],
+  "properties": {
+    "schemaVersion": { "type": "string", "pattern": "^1\\." },
+    "generatedAt": { "type": "string" },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["files", "records", "ccVersionRange", "dateRange", "parserWarnings"],
+      "properties": {
+        "files": { "type": "integer", "minimum": 0 },
+        "records": { "type": "integer", "minimum": 0 },
+        "ccVersionRange": {
+          "type": "array",
+          "items": { "type": ["string", "null"] },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "dateRange": {
+          "type": "array",
+          "items": { "type": ["string", "null"] },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "parserWarnings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["kind", "count"],
+            "properties": {
+              "kind": {
+                "enum": ["unknownRecordType", "suspectedWriteTool", "unparseableLine", "unknownExtension", "skippedMalformedRecord"]
+              },
+              "count": { "type": "integer", "minimum": 1 },
+              "type": { "type": "string" },
+              "tool": { "type": "string" },
+              "file": { "type": "string" },
+              "ext": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["linesAdded", "linesRemoved", "grossLinesWritten", "filesTouched", "filesCreated", "byLanguage", "byProject", "writes", "edits", "multiEdits", "notebookEdits"],
+      "properties": {
+        "linesAdded": { "$ref": "#/definitions/lineBuckets" },
+        "linesRemoved": { "$ref": "#/definitions/lineBuckets" },
+        "grossLinesWritten": { "type": "integer", "minimum": 0 },
+        "filesTouched": { "type": "integer", "minimum": 0 },
+        "filesCreated": { "type": "integer", "minimum": 0 },
+        "byLanguage": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["lang", "linesAdded", "files"],
+            "properties": {
+              "lang": { "type": "string" },
+              "linesAdded": { "type": "integer", "minimum": 0 },
+              "files": { "type": "integer", "minimum": 0 }
+            }
+          }
+        },
+        "byProject": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["project", "linesAdded", "sessions"],
+            "properties": {
+              "project": { "type": "string" },
+              "linesAdded": { "type": "integer", "minimum": 0 },
+              "sessions": { "type": "integer", "minimum": 0 }
+            }
+          }
+        },
+        "writes": { "type": "integer", "minimum": 0 },
+        "edits": { "type": "integer", "minimum": 0 },
+        "multiEdits": { "type": "integer", "minimum": 0 },
+        "notebookEdits": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "delivery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pullRequests", "repositories", "branches", "claudeBranches"],
+      "properties": {
+        "pullRequests": { "type": "integer", "minimum": 0 },
+        "repositories": { "type": "integer", "minimum": 0 },
+        "branches": { "type": "integer", "minimum": 0 },
+        "claudeBranches": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "activity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sessions", "subagentRuns", "projects", "activeDays", "longestStreak", "currentStreak", "humanPrompts", "assistantTurns", "firstSession", "byEntrypoint", "compactions"],
+      "properties": {
+        "sessions": { "type": "integer", "minimum": 0 },
+        "subagentRuns": { "type": "integer", "minimum": 0 },
+        "projects": { "type": "integer", "minimum": 0 },
+        "activeDays": { "type": "integer", "minimum": 0 },
+        "longestStreak": { "type": "integer", "minimum": 0 },
+        "currentStreak": { "type": "integer", "minimum": 0 },
+        "humanPrompts": { "type": "integer", "minimum": 0 },
+        "assistantTurns": { "type": "integer", "minimum": 0 },
+        "firstSession": { "type": ["string", "null"] },
+        "byEntrypoint": { "type": "object", "additionalProperties": { "type": "integer" } },
+        "compactions": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "tools": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["builtin", "mcp"],
+      "properties": {
+        "builtin": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "count"],
+            "properties": {
+              "name": { "type": "string" },
+              "count": { "type": "integer", "minimum": 1 }
+            }
+          }
+        },
+        "mcp": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["totalCalls", "servers"],
+          "properties": {
+            "totalCalls": { "type": "integer", "minimum": 0 },
+            "servers": { "type": "integer", "minimum": 0 }
+          }
+        }
+      }
+    },
+    "tokens": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["input", "output", "cacheRead", "cacheCreation", "apiEquivalentUsd", "pricingTableVersion"],
+      "properties": {
+        "input": { "type": "integer", "minimum": 0 },
+        "output": { "type": "integer", "minimum": 0 },
+        "cacheRead": { "type": "integer", "minimum": 0 },
+        "cacheCreation": { "type": "integer", "minimum": 0 },
+        "apiEquivalentUsd": { "type": "number", "minimum": 0 },
+        "pricingTableVersion": { "type": "string" }
+      }
+    },
+    "git": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reserved"],
+      "properties": { "reserved": { "const": true } }
+    }
+  },
+  "definitions": {
+    "lineBuckets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "docs", "config", "styles", "generated", "total"],
+      "properties": {
+        "code": { "type": "integer", "minimum": 0 },
+        "docs": { "type": "integer", "minimum": 0 },
+        "config": { "type": "integer", "minimum": 0 },
+        "styles": { "type": "integer", "minimum": 0 },
+        "generated": { "type": "integer", "minimum": 0 },
+        "total": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}
