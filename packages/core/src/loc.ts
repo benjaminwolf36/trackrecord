@@ -65,10 +65,30 @@ function nl(s: string): string {
   return s.length === 0 || s.endsWith("\n") ? s : `${s}\n`;
 }
 
+/**
+ * Myers diff is O(size x edit-distance): two dissimilar ~30k-line writes to the
+ * same path cost minutes (measured: 174s). Bound the work, and when the bound
+ * trips, fall back to the NET line delta — added = max(0, new - old) — which is
+ * a deliberate undercount in the spec's conservative-by-design tradition
+ * (same posture as replace_all counted once). Thresholds and fallback
+ * semantics are flagged for review in HARDENING-REPORT.md.
+ */
+export const MAX_DIFF_LINES = 20_000; // pre-gate: combined input size in lines
+export const MAX_EDIT_LENGTH = 2_000; // in-diff bail-out for pathological inputs
+
+function netDelta(oldLines: number, newLines: number): { added: number; removed: number } {
+  return { added: Math.max(0, newLines - oldLines), removed: Math.max(0, oldLines - newLines) };
+}
+
 function diffCounts(oldStr: string, newStr: string): { added: number; removed: number } {
+  const oldLines = countLines(oldStr);
+  const newLines = countLines(newStr);
+  if (oldLines + newLines > MAX_DIFF_LINES) return netDelta(oldLines, newLines);
+  const parts = diffLines(nl(oldStr), nl(newStr), { maxEditLength: MAX_EDIT_LENGTH });
+  if (parts === undefined) return netDelta(oldLines, newLines);
   let added = 0;
   let removed = 0;
-  for (const part of diffLines(nl(oldStr), nl(newStr))) {
+  for (const part of parts) {
     if (part.added) added += part.count ?? 0;
     else if (part.removed) removed += part.count ?? 0;
   }

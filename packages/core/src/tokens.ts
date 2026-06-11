@@ -31,7 +31,8 @@ export function rateFor(model: string): ModelRate | null {
 }
 
 function num(v: unknown): number {
-  return typeof v === "number" && Number.isFinite(v) ? v : 0;
+  // negatives are as corrupt as strings: a bad record must never SUBTRACT from totals
+  return typeof v === "number" && Number.isFinite(v) && v >= 0 ? v : 0;
 }
 
 /**

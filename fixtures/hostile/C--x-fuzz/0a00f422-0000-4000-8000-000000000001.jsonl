@@ -1,0 +1,18 @@
+{"type":"user","timestamp":12345,"sessionId":{},"cwd":[],"gitBranch":7,"version":3,"entrypoint":99,"isSidechain":"yes","message":null}
+{"type":"user","timestamp":null,"message":{"role":"user","content":42}}
+{"type":"user","timestamp":"not-a-date","sessionId":"0a00f422-0000-4000-8000-000000000001","message":{"role":"user","content":[{"type":"text","text":"one legit prompt among the garbage"}]}}
+{"type":"assistant","requestId":{},"uuid":"fz-a0","message":{"role":"assistant","usage":{"input_tokens":1e999,"output_tokens":-5,"cache_read_input_tokens":"many","cache_creation_input_tokens":null}}}
+{"type":"assistant","requestId":"fz-r1","message":{"role":"assistant","content":[{"type":"tool_use","id":"t1","name":"Write","input":null}]}}
+{"type":"assistant","requestId":"fz-r2","message":{"role":"assistant","content":[{"type":"tool_use","id":"t2","name":"Edit","input":{"file_path":123,"old_string":null,"new_string":["x"]}}]}}
+{"type":"assistant","requestId":"fz-r3","message":{"role":"assistant","content":[{"type":"tool_use","id":"t3","name":"MultiEdit","input":{"file_path":"/x/a.ts","edits":"notanarray"}}]}}
+{"type":"assistant","requestId":"fz-r4","message":{"role":"assistant","content":[{"type":"tool_use","id":"t4","name":"NotebookEdit","input":{"notebook_path":"/x/n.ipynb","new_source":777,"edit_mode":{}}}]}}
+{"type":"assistant","requestId":"fz-r5","message":"not-an-object"}
+{"type":"assistant","requestId":"fz-r6","message":{"role":"assistant","content":"stringcontent","usage":{"input_tokens":7}}}
+{"type":"pr-link","prUrl":123,"prRepository":null,"prNumber":"x"}
+{"type":"system","subtype":42,"content":[]}
+{"type":null,"x":1}
+{"type":123}
+[1,2,3]
+"just a string"
+true
+{"type":"user","unclosed":"trunca

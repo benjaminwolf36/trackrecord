@@ -146,6 +146,32 @@ describe("LocEngine counting rules", () => {
     ]);
   });
 
+  it("pathological large rewrites never hang — bounded diff with net-delta fallback", () => {
+    const { eng } = engine();
+    const mk = (seed: number, n: number) => {
+      let s = seed;
+      const lines: string[] = [];
+      for (let i = 0; i < n; i++) {
+        s = (s * 48271) % 2147483647;
+        lines.push(`line_${s}`);
+      }
+      return lines.join("\n");
+    };
+    const t0 = Date.now();
+    // pre-gate path: 30k + 30k lines > MAX_DIFF_LINES
+    eng.applyToolUse("Write", { file_path: "/p/huge.ts", content: mk(7, 30_000) }, CTX);
+    eng.applyToolUse("Write", { file_path: "/p/huge.ts", content: mk(13, 30_000) }, CTX);
+    // maxEditLength path: 8k + 8k dissimilar lines within the gate
+    eng.applyToolUse("Write", { file_path: "/p/big.ts", content: mk(17, 8_000) }, CTX);
+    eng.applyToolUse("Write", { file_path: "/p/big.ts", content: mk(23, 8_000) }, CTX);
+    const elapsed = Date.now() - t0;
+    const r = eng.result(new Map());
+    // both fallbacks: equal line counts -> net delta 0 beyond the initial writes
+    expect(r.linesAdded.code).toBe(38_000); // 30k + 8k initial creates only
+    expect(r.linesRemoved.code).toBe(0);
+    expect(elapsed).toBeLessThan(15_000); // unbounded Myers took ~174s for the 30k pair alone
+  });
+
   it("aggregates byLanguage and byProject", () => {
     const { eng } = engine();
     eng.applyToolUse("Write", { file_path: "/p/a.ts", content: "1\n2\n3" }, { project: "alpha" });
