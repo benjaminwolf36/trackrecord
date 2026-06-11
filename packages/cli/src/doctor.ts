@@ -13,6 +13,8 @@ export function renderDoctor(s: Survey): string {
 
   lines.push("# trackrecord doctor — corpus structure survey");
   lines.push("");
+  lines.push("> Includes tool and field names from your setup — skim before posting.");
+  lines.push("");
   lines.push(
     `Files: ${s.files.total} total (${s.files.main} main, ${s.files.agent} agent, ` +
       `${s.files.stubs} stubs failing the session rule)`,

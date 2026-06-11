@@ -3,6 +3,7 @@ import { classifyRecord } from "./classify.js";
 import { DeliveryEngine } from "./delivery.js";
 import { LocEngine, COUNTED_WRITERS } from "./loc.js";
 import { discoverFiles, readRecords } from "./reader.js";
+import { safeVersion } from "./sanitize.js";
 import { SCHEMA_VERSION, type Metrics } from "./schema.js";
 import { SessionEngine } from "./sessions.js";
 import { TokensEngine } from "./tokens.js";
@@ -92,8 +93,9 @@ export async function analyze(options: AnalyzeOptions): Promise<Metrics> {
         }
       }
 
-      const version = record.version;
-      if (typeof version === "string" && version.length > 0) {
+      // sanitized: a corrupt version value could smuggle a path into --json output
+      const version = typeof record.version === "string" ? safeVersion(record.version) : null;
+      if (version !== null) {
         if (minVersion === null || compareVersions(version, minVersion) < 0) minVersion = version;
         if (maxVersion === null || compareVersions(version, maxVersion) > 0) maxVersion = version;
       }

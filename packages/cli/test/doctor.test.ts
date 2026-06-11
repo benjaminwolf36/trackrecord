@@ -14,6 +14,7 @@ describe("trackrecord doctor", () => {
   it("surveys record types with counts and key sets", async () => {
     const out = await doctorOutput();
     expect(out).toContain("# trackrecord doctor");
+    expect(out).toContain("skim before posting");
     expect(out).toMatch(/\| user \| \d+ \|/);
     expect(out).toMatch(/\| pr-link \| \d+ \| .*prUrl/);
     // snapshot records surface only their type field

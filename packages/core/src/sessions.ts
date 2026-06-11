@@ -1,4 +1,5 @@
 import { basename } from "node:path";
+import { safeEnumValue } from "./sanitize.js";
 import type { RawRecord, SourceFile } from "./types.js";
 
 export interface ActivityMetrics {
@@ -137,7 +138,8 @@ export class SessionEngine {
     this.sessionCount += 1;
     const project = basename(modal(state.cwdCounts) ?? "unknown");
     this.sessionsByProject.set(project, (this.sessionsByProject.get(project) ?? 0) + 1);
-    const entrypoint = modal(state.entrypointCounts) ?? "unknown";
+    // sanitized: byEntrypoint keys surface in --json output
+    const entrypoint = safeEnumValue(modal(state.entrypointCounts) ?? "unknown");
     this.byEntrypoint.set(entrypoint, (this.byEntrypoint.get(entrypoint) ?? 0) + 1);
     if (state.firstTimestamp !== null) {
       if (this.firstSession === null || state.firstTimestamp < this.firstSession) {
