@@ -1,0 +1,13 @@
+{
+  "name": "@trackrecord/core",
+  "version": "0.0.1",
+  "description": "Analysis core for trackrecord — Claude Code logs in, metrics out. Zero network calls. v1 coming soon.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benjaminwolf36/trackrecord.git"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

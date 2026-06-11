@@ -1,0 +1,18 @@
+{
+  "name": "trackrecord",
+  "version": "0.0.1",
+  "description": "Your Claude Code track record — lines added, languages, PRs shipped, sessions, streaks. Local, honest, free. Zero network calls. v1 coming soon.",
+  "license": "MIT",
+  "bin": {
+    "trackrecord": "./cli.js"
+  },
+  "files": ["cli.js"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benjaminwolf36/trackrecord.git"
+  },
+  "keywords": ["claude-code", "claude", "stats", "metrics", "loc", "track-record"],
+  "engines": {
+    "node": ">=18"
+  }
+}
