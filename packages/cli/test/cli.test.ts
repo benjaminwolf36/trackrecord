@@ -3,7 +3,7 @@ import { execFile } from "node:child_process";
 import { resolve } from "node:path";
 import { promisify } from "node:util";
 import { analyze } from "@trackrecord/core";
-import { renderSummary, formatCount, suspectWriterWarnings } from "../src/summary.js";
+import { renderSummary, formatCount, truncate, suspectWriterWarnings } from "../src/summary.js";
 import { retentionNotice } from "../src/retention.js";
 import { corpus, NOW_FOR_TESTS } from "../../../fixtures/manifest.js";
 
@@ -43,11 +43,22 @@ describe("summary view", () => {
     expect(warnings[0]).toContain("trackrecord doctor");
   });
 
-  it("formats counts compactly", () => {
+  it("formats counts compactly, rolling units over cleanly", () => {
     expect(formatCount(2_800_000_000)).toBe("2.8B");
     expect(formatCount(1_500_000)).toBe("1.5M");
     expect(formatCount(87_851)).toBe("87.9k");
     expect(formatCount(969)).toBe("969");
+    // rollover: 999,999 must read "1M", not "1000.0k"
+    expect(formatCount(999_999)).toBe("1M");
+    expect(formatCount(1_000_000)).toBe("1M");
+    // trillions tier (real corpora hit multi-trillion cache-read tokens)
+    expect(formatCount(11_000_000_000_000)).toBe("11T");
+    expect(formatCount(2_608_084_067)).toBe("2.6B");
+  });
+
+  it("truncates over-long strings with an ellipsis, leaves short ones alone", () => {
+    expect(truncate("Bash", 16)).toBe("Bash");
+    expect(truncate("mcp__<redacted>__execute_file_with_long_name", 16)).toBe("mcp__<redacted>…");
   });
 });
 

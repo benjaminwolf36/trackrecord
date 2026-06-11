@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import satori from "satori";
 import { Resvg } from "@resvg/resvg-js";
 import type { Metrics } from "@trackrecord/core";
-import { formatCount } from "./summary.js";
+import { formatCount, truncate } from "./summary.js";
 
 const WIDTH = 1200;
 const HEIGHT = 630;
@@ -103,7 +103,7 @@ export async function renderCardSvg(metrics: Metrics): Promise<string> {
     h(
       "div",
       { display: "flex", gap: 16, marginTop: 14 },
-      stat("top tool", topTool ? `${topTool.name}` : "—", topTool ? `×${formatCount(topTool.count)}` : undefined),
+      stat("top tool", topTool ? truncate(topTool.name, 16) : "—", topTool ? `×${formatCount(topTool.count)}` : undefined),
       stat("context ceiling hit", `${formatCount(activity.compactions)}×`),
       stat("total tokens", formatCount(totalTokens)),
     ),

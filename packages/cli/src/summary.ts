@@ -2,10 +2,19 @@ import pc from "picocolors";
 import type { Metrics } from "@trackrecord/core";
 
 export function formatCount(n: number): string {
-  if (n >= 1_000_000_000) return `${(n / 1_000_000_000).toFixed(1)}B`;
-  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
-  if (n >= 10_000) return `${(n / 1_000).toFixed(1)}k`;
-  return n.toLocaleString("en-US");
+  if (n < 10_000) return n.toLocaleString("en-US");
+  // Ascending units: pick the smallest whose rounded value reads < 1000, so 999,999
+  // rolls up to "1.0M" rather than printing "1000.0k", and 1e13 reads "11.0T".
+  for (const [div, suffix] of [[1e3, "k"], [1e6, "M"], [1e9, "B"], [1e12, "T"]] as const) {
+    const r = Math.round((n / div) * 10) / 10;
+    if (r < 1000) return `${r}${suffix}`;
+  }
+  return `${Math.round(n / 1e12)}T`;
+}
+
+/** Clamp a value string so it never overruns a card stat panel. */
+export function truncate(s: string, max: number): string {
+  return s.length <= max ? s : `${s.slice(0, max - 1)}…`;
 }
 
 /** Suspect-writer warnings the user should know about (spec parser rules). */
