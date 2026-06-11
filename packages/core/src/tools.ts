@@ -1,3 +1,5 @@
+import { safeToolName } from "./sanitize.js";
+
 export interface ToolsMetrics {
   builtin: { name: string; count: number }[];
   mcp: { totalCalls: number; servers: number };
@@ -19,7 +21,9 @@ export class ToolsEngine {
       if (server) this.mcpServers.add(server);
       return;
     }
-    this.builtin.set(name, (this.builtin.get(name) ?? 0) + 1);
+    // sanitized: builtin names surface in --json and the summary's "top tool" line
+    const safe = safeToolName(name);
+    this.builtin.set(safe, (this.builtin.get(safe) ?? 0) + 1);
   }
 
   result(): ToolsMetrics {

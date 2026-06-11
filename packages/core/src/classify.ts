@@ -1,3 +1,4 @@
+import { safeTypeName } from "./sanitize.js";
 import { KNOWN_RECORD_TYPES, type RawRecord } from "./types.js";
 import type { WarningCollector } from "./warnings.js";
 
@@ -14,7 +15,8 @@ export function classifyRecord(record: RawRecord, warnings: WarningCollector): R
     return null;
   }
   if (!KNOWN.has(type)) {
-    warnings.tally("unknownRecordType", { type });
+    // sanitized: a corrupt "type" could carry prompts/paths into surfaced warnings
+    warnings.tally("unknownRecordType", { type: safeTypeName(type) });
     return null;
   }
   return record;

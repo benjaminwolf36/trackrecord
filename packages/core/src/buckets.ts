@@ -1,3 +1,4 @@
+import { safeExt } from "./sanitize.js";
 import type { WarningCollector } from "./warnings.js";
 
 export type Bucket = "code" | "docs" | "config" | "styles" | "generated";
@@ -46,7 +47,7 @@ export function bucketFor(filePath: string, warnings: WarningCollector, seenUnkn
   if (CONFIG.has(ext)) return "config";
   if (STYLES.has(ext)) return "styles";
 
-  const key = ext === "" ? "(none)" : ext;
+  const key = safeExt(ext === "" ? "(none)" : ext);
   if (!seenUnknown.has(key)) {
     seenUnknown.add(key);
     warnings.tally("unknownExtension", { ext: key });

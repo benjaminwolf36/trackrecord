@@ -1,6 +1,14 @@
 import { classifyRecord } from "./classify.js";
 import { COUNTED_WRITERS } from "./loc.js";
 import { discoverFiles, readRecords } from "./reader.js";
+import {
+  redactMcpToolName,
+  safeEnumValue,
+  safeKeyName,
+  safeToolName,
+  safeTypeName,
+  safeVersion,
+} from "./sanitize.js";
 import { isHumanPrompt } from "./sessions.js";
 import type { RawRecord } from "./types.js";
 import { WarningCollector, type ParserWarning } from "./warnings.js";
@@ -32,9 +40,7 @@ export interface Survey {
 }
 
 function redactToolName(name: string): string {
-  if (!name.startsWith("mcp__")) return name;
-  const parts = name.split("__");
-  return `mcp__<redacted>__${parts.slice(2).join("__") || "<unknown>"}`;
+  return name.startsWith("mcp__") ? redactMcpToolName(name) : safeToolName(name);
 }
 
 function toolUseBlocks(record: RawRecord): { name: string; input: unknown }[] {
@@ -73,10 +79,13 @@ export async function survey(dir: string): Promise<Survey> {
     let humanPrompts = 0;
     let assistantTurns = 0;
     for await (const raw of readRecords(file.path, warnings)) {
-      const info = typeInfo.get(raw.type) ?? { count: 0, keys: new Set<string>() };
+      // sanitized at collection: types and field NAMES are the only thing kept,
+      // and a corrupt line could smuggle content into either
+      const typeName = safeTypeName(String(raw.type ?? "<invalid-type>"));
+      const info = typeInfo.get(typeName) ?? { count: 0, keys: new Set<string>() };
       info.count += 1;
-      for (const k of Object.keys(raw)) info.keys.add(k);
-      typeInfo.set(raw.type, info);
+      for (const k of Object.keys(raw)) info.keys.add(safeKeyName(k));
+      typeInfo.set(typeName, info);
 
       const record = classifyRecord(raw, warnings);
       if (!record) continue;
@@ -92,20 +101,22 @@ export async function survey(dir: string): Promise<Survey> {
         sessionIdFiles.set(record.sessionId, set);
       }
 
-      const version = record.version;
-      if (typeof version === "string" && version.length > 0) {
+      const version = typeof record.version === "string" ? safeVersion(record.version) : null;
+      if (version !== null) {
         if (minVersion === null || version.localeCompare(minVersion, "en", { numeric: true }) < 0) minVersion = version;
         if (maxVersion === null || version.localeCompare(maxVersion, "en", { numeric: true }) > 0) maxVersion = version;
       }
       if (record.type === "user" || record.type === "assistant") {
         if (typeof record.entrypoint === "string") {
           recordsWithEntrypoint += 1;
-          entrypointValues.set(record.entrypoint, (entrypointValues.get(record.entrypoint) ?? 0) + 1);
+          const entry = safeEnumValue(record.entrypoint);
+          entrypointValues.set(entry, (entrypointValues.get(entry) ?? 0) + 1);
         } else {
           recordsWithoutEntrypoint += 1;
         }
         if (typeof record.promptSource === "string") {
-          promptSourceValues.set(record.promptSource, (promptSourceValues.get(record.promptSource) ?? 0) + 1);
+          const src = safeEnumValue(record.promptSource);
+          promptSourceValues.set(src, (promptSourceValues.get(src) ?? 0) + 1);
         }
       }
 
@@ -113,7 +124,7 @@ export async function survey(dir: string): Promise<Survey> {
       if (typeof message === "object" && message !== null) {
         const usage = (message as Record<string, unknown>).usage;
         if (typeof usage === "object" && usage !== null) {
-          for (const k of Object.keys(usage)) usageKeys.add(k);
+          for (const k of Object.keys(usage)) usageKeys.add(safeKeyName(k));
         }
       }
 
@@ -123,7 +134,7 @@ export async function survey(dir: string): Promise<Survey> {
         if (COUNTED_WRITERS.has(name)) {
           const shape =
             typeof input === "object" && input !== null && Object.keys(input).length > 0
-              ? Object.keys(input).sort().join(",")
+              ? Object.keys(input).map(safeKeyName).sort().join(",")
               : "(empty)";
           editShapes.set(`${name}|${shape}`, (editShapes.get(`${name}|${shape}`) ?? 0) + 1);
         }

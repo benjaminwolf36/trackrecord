@@ -1,5 +1,6 @@
 import { diffLines } from "diff";
 import { bucketFor, extensionOf, normalizePath, type Bucket } from "./buckets.js";
+import { safeToolName } from "./sanitize.js";
 import type { WarningCollector } from "./warnings.js";
 
 /** The only four tools whose output is ever counted (spec scope statement). */
@@ -216,7 +217,7 @@ export class LocEngine {
       (v) => typeof v === "string" && v.length > 500 && v.includes("\n"),
     );
     if (hasPathKey && hasBigString) {
-      this.warnings.tally("suspectedWriteTool", { tool: name });
+      this.warnings.tally("suspectedWriteTool", { tool: safeToolName(name) });
     }
   }
 
