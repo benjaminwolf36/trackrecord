@@ -1,0 +1,33 @@
+name: Format report
+description: trackrecord misparsed your logs, or the numbers look wrong
+title: "[format] "
+labels: ["format-report"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks — reports like this are how the parser gets fixed for everyone.
+        The doctor output below contains **structure only** — no code, prompts, or
+        paths. Feel free to read it before pasting.
+  - type: textarea
+    id: doctor
+    attributes:
+      label: "`npx trackrecord doctor` output"
+      description: Run `npx trackrecord doctor` and paste the full output here.
+      render: markdown
+    validations:
+      required: true
+  - type: input
+    id: cc-version
+    attributes:
+      label: Claude Code version
+      description: "`claude --version`"
+    validations:
+      required: true
+  - type: textarea
+    id: expectation
+    attributes:
+      label: What looks wrong?
+      description: Which number or behavior didn't match your expectation, and why?
+    validations:
+      required: true
