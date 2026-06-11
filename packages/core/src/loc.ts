@@ -178,11 +178,14 @@ export class LocEngine {
     this.added.total += added;
     this.removed[bucket] += removed;
     this.removed.total += removed;
-    const lang = extensionOf(p) || "(none)";
-    const entry = this.byLang.get(lang) ?? { linesAdded: 0, files: new Set<string>() };
-    entry.linesAdded += added;
-    entry.files.add(p);
-    this.byLang.set(lang, entry);
+    if (bucket !== "generated") {
+      // lockfiles and build output are not "languages you wrote"
+      const lang = extensionOf(p) || "(none)";
+      const entry = this.byLang.get(lang) ?? { linesAdded: 0, files: new Set<string>() };
+      entry.linesAdded += added;
+      entry.files.add(p);
+      this.byLang.set(lang, entry);
+    }
     this.byProject.set(ctx.project, (this.byProject.get(ctx.project) ?? 0) + added);
   }
 
