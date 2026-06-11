@@ -77,7 +77,10 @@
             "additionalProperties": false,
             "required": ["project", "linesAdded", "sessions"],
             "properties": {
-              "project": { "type": "string" },
+              "project": {
+                "type": "string",
+                "description": "Stable per-run 'project-N' label by default (safe-by-default for NDA folder names); real directory basename only under --show-project-names."
+              },
               "linesAdded": { "type": "integer", "minimum": 0 },
               "sessions": { "type": "integer", "minimum": 0 }
             }

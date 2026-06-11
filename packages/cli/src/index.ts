@@ -36,8 +36,15 @@ program
   .description("Your Claude Code track record — local, honest, free. Zero network calls.")
   .option("--json", "emit the full schema object to stdout")
   .option("--dir <path>", "override the projects directory", DEFAULT_DIR)
-  .action(async (opts: { json?: boolean; dir: string }) => {
-    const metrics = await analyze({ dir: requireDir(opts.dir) });
+  .option(
+    "--show-project-names",
+    "show real project folder names in byProject (default: stable project-N labels)",
+  )
+  .action(async (opts: { json?: boolean; dir: string; showProjectNames?: boolean }) => {
+    const metrics = await analyze({
+      dir: requireDir(opts.dir),
+      showProjectNames: opts.showProjectNames === true,
+    });
     const notice = retentionNotice(metrics);
     if (opts.json) {
       // stdout carries ONLY the schema object; notices go to stderr

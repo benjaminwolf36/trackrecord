@@ -39,6 +39,11 @@ might choose to paste into an issue) contains structure only — no code, prompt
 
 All commands accept `--dir <path>` to override the default `~/.claude/projects/`.
 
+Project folder names are **redacted by default** everywhere they'd appear (`byProject`
+shows stable `project-1`, `project-2`… labels) — many folders are named after clients,
+and the default output must never surface one. Pass `--show-project-names` to see real
+folder names in your own local output.
+
 ## ⚠ Your logs are evaporating (read this once)
 
 Claude Code **deletes transcripts after ~30 days by default**. Your history — the corpus

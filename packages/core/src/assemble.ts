@@ -20,6 +20,13 @@ export interface AnalyzeOptions {
   since?: Date;
   /** Only count records timestamped on/before this instant. */
   until?: Date;
+  /**
+   * Surface real project-directory basenames in byProject. Default FALSE:
+   * many users have NDA clients in folder names, so the default output must
+   * never show one just because someone ran the tool without thinking.
+   * Off = stable per-run "project-N" labels (ranked by lines added).
+   */
+  showProjectNames?: boolean;
 }
 
 interface ToolEvent {
@@ -60,6 +67,22 @@ function toolUses(record: RawRecord): { name: string; input: unknown }[] {
  * The core's entire public API: logs in, schema object out.
  * Pure analysis - no printing, no network, no fs writes.
  */
+/**
+ * Safe-by-default project labels: byProject entries get stable per-run
+ * "project-N" names (ranked by lines added — the array is already sorted)
+ * unless the caller explicitly opted into real directory basenames.
+ */
+function redactProjects<T extends { byProject: { project: string; linesAdded: number; sessions: number }[] }>(
+  output: T,
+  showProjectNames: boolean,
+): T {
+  if (showProjectNames) return output;
+  return {
+    ...output,
+    byProject: output.byProject.map((p, i) => ({ ...p, project: `project-${i + 1}` })),
+  };
+}
+
 export async function analyze(options: AnalyzeOptions): Promise<Metrics> {
   const now = options.now ?? new Date();
   const warnings = new WarningCollector();
@@ -135,7 +158,7 @@ export async function analyze(options: AnalyzeOptions): Promise<Metrics> {
       dateRange: minTs !== null && maxTs !== null ? [minTs, maxTs] : [null, null],
       parserWarnings: warnings.toJSON(),
     },
-    output: loc.result(sessions.projectSessions()),
+    output: redactProjects(loc.result(sessions.projectSessions()), options.showProjectNames === true),
     delivery: delivery.result(),
     activity: sessions.result(now),
     tools: tools.result(),

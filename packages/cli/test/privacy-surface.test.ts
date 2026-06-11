@@ -41,9 +41,27 @@ describe("--json output path privacy", () => {
         expect(w.file).toMatch(/^[^\\/]+\.jsonl$/);
       }
     }
-    // byProject surfaces the cwd BASENAME only (spec-sanctioned), never the prefix
+    // byProject is redacted BY DEFAULT — stable project-N labels, never the
+    // real folder name (NDA-client folder names must not surface unprompted)
+    expect(m.output.byProject.length).toBeGreaterThan(0);
     for (const p of m.output.byProject) {
-      expect(p.project).not.toMatch(/[\\/]/);
+      expect(p.project).toMatch(/^project-\d+$/);
     }
+    expect(stdout).not.toContain("RT_LEAK_CWD"); // the planted cwd basename
+  });
+
+  it("--show-project-names opts into real basenames, counts unchanged", async () => {
+    const redacted = await run(process.execPath, [BIN, "--json", "--dir", REDTEAM]);
+    const shown = await run(process.execPath, [BIN, "--json", "--dir", REDTEAM, "--show-project-names"]);
+    const r = JSON.parse(redacted.stdout).output.byProject;
+    const s = JSON.parse(shown.stdout).output.byProject;
+    expect(s.map((p: { project: string }) => p.project)).toContain("RT_LEAK_CWD_secret-startup");
+    // same data, same order — only the labels differ
+    expect(r.map((p: { linesAdded: number }) => p.linesAdded)).toEqual(
+      s.map((p: { linesAdded: number }) => p.linesAdded),
+    );
+    expect(r.map((p: { sessions: number }) => p.sessions)).toEqual(
+      s.map((p: { sessions: number }) => p.sessions),
+    );
   });
 });
