@@ -12,6 +12,10 @@ export const KNOWN_RECORD_TYPES = [
   "file-history-snapshot",
   "permission-mode",
   "ai-title",
+  // session-title records written by Claude Code ≤2.0.74 (public-corpus harvest
+  // 2026-06-12): {"type":"summary","summary":"<title>","leafUuid":"..."} —
+  // known and ignored; the title text is never read.
+  "summary",
 ] as const;
 
 export type KnownRecordType = (typeof KNOWN_RECORD_TYPES)[number];
