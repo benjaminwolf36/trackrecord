@@ -8,7 +8,9 @@ const CODE = new Set([
   "swift", "c", "cc", "cpp", "h", "hpp", "cs", "php", "sql", "sh", "bash",
   "zsh", "ps1", "vue", "svelte", "astro",
 ]);
-const DOCS = new Set(["md", "mdx", "txt", "rst", "adoc"]);
+// html/htm: markup, not code — conservative bucketing wins the ambiguity
+// (public-corpus harvest decision, 2026-06-12)
+const DOCS = new Set(["md", "mdx", "txt", "rst", "adoc", "html", "htm"]);
 const CONFIG = new Set(["json", "jsonc", "yaml", "yml", "toml", "ini", "env", "xml", "csv"]);
 const STYLES = new Set(["css", "scss", "sass", "less"]);
 

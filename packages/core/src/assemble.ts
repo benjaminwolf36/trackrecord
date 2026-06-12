@@ -101,6 +101,11 @@ export async function analyze(options: AnalyzeOptions): Promise<Metrics> {
   // LOC events are replayed in corpus-chronological order so Write-over-Write
   // diffs against the truly most recent logged content (spec rule 2).
   const locEvents: ToolEvent[] = [];
+  // --resume rewrites the session file with the prior history replayed under the
+  // SAME record uuids before diverging. Without cross-file dedup those replays
+  // count prompts and LOC twice (public-corpus harvest finding, 2026-06-12).
+  // Conservative-by-design: every uuid counts exactly once, first file wins.
+  const seenUuids = new Set<string>();
 
   for (const file of files) {
     sessions.startFile(file);
@@ -108,6 +113,10 @@ export async function analyze(options: AnalyzeOptions): Promise<Metrics> {
       records += 1;
       const record = classifyRecord(raw, warnings);
       if (!record) continue;
+      if (typeof record.uuid === "string" && record.uuid.length > 0) {
+        if (seenUuids.has(record.uuid)) continue;
+        seenUuids.add(record.uuid);
+      }
       if (options.since !== undefined || options.until !== undefined) {
         const ts = typeof record.timestamp === "string" ? Date.parse(record.timestamp) : NaN;
         if (!Number.isNaN(ts)) {

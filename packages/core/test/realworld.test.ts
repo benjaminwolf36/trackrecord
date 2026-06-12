@@ -31,19 +31,16 @@ describe("real-world structures", () => {
     expect(m.source.ccVersionRange).toEqual(["2.0.71", "2.0.71"]); // below documented range, parses fine
   });
 
-  it("forked parentUuid DAG across --resume: turns dedup by requestId; LOC/prompt replay overcount is KNOWN (pending methodology decision)", async () => {
+  it("forked parentUuid DAG across --resume: records dedup by uuid across files — replays never double-count", async () => {
     const dir = dirFor("C--rw-fork"); tmps.push(dir);
     const m = await analyze({ dir, now: NOW });
     expect(m.source.parserWarnings).toEqual([]);
-    // requestId dedup works: fk-r1 appears in both files, counted once
+    // fk-u1/fk-a1 are replayed verbatim in the resumed file under the same
+    // uuids; uuid dedup (first file wins) plus requestId dedup mean each
+    // counts exactly once. Methodology decision approved 2026-06-12.
     expect(m.activity.assistantTurns).toBe(2);
-    // DOCUMENTED OVERCOUNT: the resumed file replays history, so the fk-r1 Edit
-    // (+1 line) and prompt fk-u1 count twice. Ideal: loc=2, prompts=2.
-    // Changing this means deduping records by uuid across files — a counting-
-    // semantics change that needs an explicit methodology decision. Until then
-    // this test pins the current behavior so any drift is loud.
-    expect(m.output.linesAdded.code).toBe(3);
-    expect(m.activity.humanPrompts).toBe(3);
+    expect(m.output.linesAdded.code).toBe(2);
+    expect(m.activity.humanPrompts).toBe(2);
     expect(m.activity.sessions).toBe(2);
   });
 
