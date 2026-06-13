@@ -7,6 +7,11 @@ streaks — parsed from the JSONL logs Claude Code already keeps on your machine
 npx trackrecord
 ```
 
+*The universal install — works on any machine with Node, on every surface, nothing to set
+up, zero network. That's the whole tool.* Prefer the card rendered **inline in Claude
+Code** instead of the terminal? There's an optional
+[plugin](#inline-card-in-claude-code-optional-plugin) for that.
+
 Anthropic ships output analytics — lines accepted, PR tagging — only to **Team and
 Enterprise** customers via the Console dashboard. Cost trackers cover what you spent.
 Nobody serves individuals rigorous *output* metrics.
@@ -44,39 +49,61 @@ shows stable `project-1`, `project-2`… labels) — many folders are named afte
 and the default output must never surface one. Pass `--show-project-names` to see real
 folder names in your own local output.
 
-## Inline card — the Claude Code plugin
+## Inline card in Claude Code (optional plugin)
 
-Inside Claude Code, `/trackrecord` renders your stats as the **Record Book card**, inline
-in chat — no terminal needed. The plugin is **fully self-contained**: it bundles the
-parser, makes **zero network calls**, and needs no npm/npx at runtime. On the desktop/web
-client you get the rendered card; on clients without inline rendering it falls back to the
-box-drawn text card.
+`npx trackrecord` above is the front door — it works everywhere. This plugin is an optional
+**bonus** for Claude Code users who'd rather see the card rendered **inline in chat**. Same
+numbers either way.
 
-**Install from the community marketplace** (after launch — safety-screened, the
-trust-signal path):
+It bundles its own parser, makes zero network calls, and needs no npm at runtime. You install
+it through Claude Code's plugin manager — the **same marketplace string,
+`get-trackrecord/trackrecord`, on every surface.**
 
-```
-/plugin marketplace add anthropics/claude-plugins-community
-/plugin install trackrecord@claude-community
-```
+### Desktop app — install from the GUI (no commands to type)
 
-**Install from this repo** (self-host or local testing):
+1. Sidebar → **Customize**
+2. **Plugins** → **Marketplaces** → add `get-trackrecord/trackrecord`
+3. Back to **Plugins** → install **trackrecord**
+4. Restart when prompted
+
+> **Don't type `/plugin` in the desktop app.** It's a terminal-only command — typing it in the
+> app is exactly what produces *"/plugin isn't available in this environment."* Use the
+> **Customize → Plugins** GUI above; it has no such command and no error.
+
+### VS Code / JetBrains — same idea via the extension
+
+Open the Claude Code panel → **Plugins / Marketplaces** tab → add `get-trackrecord/trackrecord`
+→ install **trackrecord** → restart.
+
+### Terminal CLI — slash commands (terminal only)
 
 ```
 /plugin marketplace add get-trackrecord/trackrecord
 /plugin install trackrecord@trackrecord
 ```
 
-Or load it for a single session without installing — point Claude Code straight at the
-bundled plugin directory:
+These `/plugin …` slash commands (and `claude plugin …`) exist **only** in the standalone CLI;
+the desktop app and IDE extensions don't add `claude` to your PATH.
+
+### Web and mobile app — not supported
+
+Claude Code **on the web** and the **mobile app** can't run plugins, so the inline card isn't
+available there. Run `npx trackrecord` in any terminal, or use the desktop app, instead.
+
+---
+
+After installing, invoke it — plugin commands are namespaced, so the form may be
+`/trackrecord:trackrecord`; plain language like "show my trackrecord" also fires it (the skill
+is model-invoked).
+
+**Community marketplace** (after launch — safety-screened): once accepted, it installs the same
+way from `anthropics/claude-plugins-community` (plugin id `trackrecord@claude-community`).
+
+**Local development** — load the plugin for one session without installing:
 
 ```
 claude --plugin-dir ./plugin
 ```
-
-After installing, run `/reload-plugins`, then invoke the card. (Plugin slash-commands are
-namespaced, so the exact form may be `/trackrecord:trackrecord`; the skill is also
-model-invoked, so plain "show my trackrecord" works too.)
 
 ### Zero-command auto-load (for anyone who clones this repo)
 
