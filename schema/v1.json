@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://github.com/benjaminwolf36/trackrecord/schema/v1.json",
+  "$id": "https://github.com/get-trackrecord/trackrecord/schema/v1.json",
   "title": "trackrecord metrics schema v1.0.0",
   "type": "object",
   "additionalProperties": false,

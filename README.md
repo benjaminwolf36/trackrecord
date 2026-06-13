@@ -63,7 +63,7 @@ trust-signal path):
 **Install from this repo** (self-host or local testing):
 
 ```
-/plugin marketplace add <owner>/trackrecord
+/plugin marketplace add get-trackrecord/trackrecord
 /plugin install trackrecord@trackrecord
 ```
 
@@ -87,7 +87,7 @@ someone opens the project in Claude Code — no `/plugin` commands at all:
 // .claude/settings.json
 {
   "extraKnownMarketplaces": {
-    "trackrecord": { "source": { "source": "github", "repo": "<owner>/trackrecord" } }
+    "trackrecord": { "source": { "source": "github", "repo": "get-trackrecord/trackrecord" } }
   },
   "enabledPlugins": { "trackrecord@trackrecord": true }
 }

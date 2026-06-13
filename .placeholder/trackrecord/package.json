@@ -9,7 +9,7 @@
   "files": ["cli.js"],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/benjaminwolf36/trackrecord.git"
+    "url": "git+https://github.com/get-trackrecord/trackrecord.git"
   },
   "keywords": ["claude-code", "claude", "stats", "metrics", "loc", "track-record"],
   "engines": {
