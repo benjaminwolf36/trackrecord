@@ -44,6 +44,58 @@ shows stable `project-1`, `project-2`… labels) — many folders are named afte
 and the default output must never surface one. Pass `--show-project-names` to see real
 folder names in your own local output.
 
+## Inline card — the Claude Code plugin
+
+Inside Claude Code, `/trackrecord` renders your stats as the **Record Book card**, inline
+in chat — no terminal needed. The plugin is **fully self-contained**: it bundles the
+parser, makes **zero network calls**, and needs no npm/npx at runtime. On the desktop/web
+client you get the rendered card; on clients without inline rendering it falls back to the
+box-drawn text card.
+
+**Install from the community marketplace** (after launch — safety-screened, the
+trust-signal path):
+
+```
+/plugin marketplace add anthropics/claude-plugins-community
+/plugin install trackrecord@claude-community
+```
+
+**Install from this repo** (self-host or local testing):
+
+```
+/plugin marketplace add get-trackrecord/trackrecord
+/plugin install trackrecord@trackrecord
+```
+
+Or load it for a single session without installing — point Claude Code straight at the
+bundled plugin directory:
+
+```
+claude --plugin-dir ./plugin
+```
+
+After installing, run `/reload-plugins`, then invoke the card. (Plugin slash-commands are
+namespaced, so the exact form may be `/trackrecord:trackrecord`; the skill is also
+model-invoked, so plain "show my trackrecord" works too.)
+
+### Zero-command auto-load (for anyone who clones this repo)
+
+Commit a `.claude/settings.json` and the plugin registers + enables itself the moment
+someone opens the project in Claude Code — no `/plugin` commands at all:
+
+```jsonc
+// .claude/settings.json
+{
+  "extraKnownMarketplaces": {
+    "trackrecord": { "source": { "source": "github", "repo": "get-trackrecord/trackrecord" } }
+  },
+  "enabledPlugins": { "trackrecord@trackrecord": true }
+}
+```
+
+This is project-scoped — it applies only while working inside the repo, which makes it a
+clean "clone and it just works" path for contributors without touching their global setup.
+
 ## ⚠ Your logs are evaporating (read this once)
 
 Claude Code **deletes transcripts after ~30 days by default**. Your history — the corpus

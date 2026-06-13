@@ -13,14 +13,17 @@ template in anything but the data values, that is a bug.
 
 ## Workflow
 
-1. Run the CLI (local-only, zero network calls; project names are redacted by default):
+1. Get the metrics JSON. If the `/trackrecord` command already ran the bundled
+   parser and handed you its JSON, use that — do not re-run anything. Otherwise run
+   the plugin's self-contained parser (local-only, zero network, no npm; project
+   names are redacted by default):
 
    ```
-   npx trackrecord --json
+   node "${CLAUDE_PLUGIN_ROOT}/bin/trackrecord.cjs" --json
    ```
 
-   stdout is a single JSON object (schema v1). If the command fails because no
-   logs exist, show the user its stderr message and stop — do not invent data.
+   stdout is a single JSON object (schema v1). If it fails because no logs exist,
+   show the user its stderr message and stop — do not invent data.
 
 2. Compute the slot values from the JSON (rules below).
 
@@ -31,8 +34,12 @@ template in anything but the data values, that is a bug.
 
 4. **Fallback — REQUIRED, never fail silently.** If no widget/inline-HTML tool
    is available:
-   - Run `npx trackrecord` (no flags) and show its output in a fenced code block —
-     that is the text card, the official fallback experience.
+   - Run the bundled parser with no flags and show its output in a fenced code block —
+     that box-drawn text card is the official fallback experience:
+
+     ```
+     node "${CLAUDE_PLUGIN_ROOT}/bin/trackrecord.cjs"
+     ```
    - Tell the user in one sentence why the inline card was not shown
      ("this environment can't render inline widgets").
 

@@ -1,0 +1,17 @@
+{
+  "name": "trackrecord",
+  "owner": {
+    "name": "trackrecord"
+  },
+  "metadata": {
+    "description": "Local marketplace for testing the trackrecord plugin before publishing.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "trackrecord",
+      "source": "./plugin",
+      "description": "Type /trackrecord to render your Claude Code track record as the Record Book card, inline in chat. Local, honest, zero network calls."
+    }
+  ]
+}

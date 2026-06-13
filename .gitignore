@@ -5,3 +5,8 @@ coverage/
 trackrecord-card.png
 *.log
 .sent/
+
+# local scratch (card design renders, screenshots, browser automation)
+render-*.html
+tr-*.png
+.playwright-mcp/
