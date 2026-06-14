@@ -117,7 +117,7 @@ export function renderSummary(metrics: Metrics): string {
       `$${tokens.apiEquivalentUsd.toFixed(2)} API-equiv`,
     ),
     MID,
-    row("built with Claude Code", "zero network calls", dim, dim),
+    row("/trackrecord  ·  npx trackrecord", "zero network calls", dim, dim),
     BOT,
   ];
   return lines.join("\n");

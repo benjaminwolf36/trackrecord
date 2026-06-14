@@ -147,10 +147,10 @@ var init_delivery = __esm({
   }
 });
 
-// ../../../node_modules/.pnpm/diff@9.0.0/node_modules/diff/libesm/diff/base.js
+// node_modules/.pnpm/diff@9.0.0/node_modules/diff/libesm/diff/base.js
 var Diff;
 var init_base = __esm({
-  "../../../node_modules/.pnpm/diff@9.0.0/node_modules/diff/libesm/diff/base.js"() {
+  "node_modules/.pnpm/diff@9.0.0/node_modules/diff/libesm/diff/base.js"() {
     Diff = class {
       diff(oldStr, newStr, options = {}) {
         let callback;
@@ -354,7 +354,7 @@ var init_base = __esm({
   }
 });
 
-// ../../../node_modules/.pnpm/diff@9.0.0/node_modules/diff/libesm/diff/line.js
+// node_modules/.pnpm/diff@9.0.0/node_modules/diff/libesm/diff/line.js
 function diffLines(oldStr, newStr, options) {
   return lineDiff.diff(oldStr, newStr, options);
 }
@@ -378,7 +378,7 @@ function tokenize(value, options) {
 }
 var LineDiff, lineDiff;
 var init_line = __esm({
-  "../../../node_modules/.pnpm/diff@9.0.0/node_modules/diff/libesm/diff/line.js"() {
+  "node_modules/.pnpm/diff@9.0.0/node_modules/diff/libesm/diff/line.js"() {
     init_base();
     LineDiff = class extends Diff {
       constructor() {
@@ -408,9 +408,9 @@ var init_line = __esm({
   }
 });
 
-// ../../../node_modules/.pnpm/diff@9.0.0/node_modules/diff/libesm/index.js
+// node_modules/.pnpm/diff@9.0.0/node_modules/diff/libesm/index.js
 var init_libesm = __esm({
-  "../../../node_modules/.pnpm/diff@9.0.0/node_modules/diff/libesm/index.js"() {
+  "node_modules/.pnpm/diff@9.0.0/node_modules/diff/libesm/index.js"() {
     init_line();
   }
 });
@@ -1350,9 +1350,9 @@ var init_src = __esm({
   }
 });
 
-// ../../../node_modules/.pnpm/picocolors@1.1.1/node_modules/picocolors/picocolors.js
+// node_modules/.pnpm/picocolors@1.1.1/node_modules/picocolors/picocolors.js
 var require_picocolors = __commonJS({
-  "../../../node_modules/.pnpm/picocolors@1.1.1/node_modules/picocolors/picocolors.js"(exports2, module2) {
+  "node_modules/.pnpm/picocolors@1.1.1/node_modules/picocolors/picocolors.js"(exports2, module2) {
     var p = process || {};
     var argv = p.argv || [];
     var env = p.env || {};
@@ -1498,7 +1498,7 @@ function renderSummary(metrics) {
       `$${tokens.apiEquivalentUsd.toFixed(2)} API-equiv`
     ),
     MID,
-    row("built with Claude Code", "zero network calls", dim, dim),
+    row("/trackrecord  \xB7  npx trackrecord", "zero network calls", dim, dim),
     BOT
   ];
   return lines.join("\n");
@@ -1677,7 +1677,7 @@ var import_node_fs4 = require("node:fs");
 var import_node_os = require("node:os");
 var import_node_path5 = require("node:path");
 
-// ../../../node_modules/.pnpm/commander@15.0.0/node_modules/commander/lib/error.js
+// node_modules/.pnpm/commander@15.0.0/node_modules/commander/lib/error.js
 var CommanderError = class extends Error {
   /**
    * Constructs the CommanderError class
@@ -1706,7 +1706,7 @@ var InvalidArgumentError = class extends CommanderError {
   }
 };
 
-// ../../../node_modules/.pnpm/commander@15.0.0/node_modules/commander/lib/argument.js
+// node_modules/.pnpm/commander@15.0.0/node_modules/commander/lib/argument.js
 var Argument = class {
   /**
    * Initialize a new command argument with the given name and description.
@@ -1827,7 +1827,7 @@ function humanReadableArgName(arg) {
   return arg.required ? "<" + nameOutput + ">" : "[" + nameOutput + "]";
 }
 
-// ../../../node_modules/.pnpm/commander@15.0.0/node_modules/commander/lib/command.js
+// node_modules/.pnpm/commander@15.0.0/node_modules/commander/lib/command.js
 var import_node_events = require("node:events");
 var import_node_child_process = __toESM(require("node:child_process"), 1);
 var import_node_path = __toESM(require("node:path"), 1);
@@ -1835,7 +1835,7 @@ var import_node_fs = __toESM(require("node:fs"), 1);
 var import_node_process = __toESM(require("node:process"), 1);
 var import_node_util2 = require("node:util");
 
-// ../../../node_modules/.pnpm/commander@15.0.0/node_modules/commander/lib/help.js
+// node_modules/.pnpm/commander@15.0.0/node_modules/commander/lib/help.js
 var import_node_util = require("node:util");
 var Help = class {
   constructor() {
@@ -2427,7 +2427,7 @@ ${itemIndentStr}`);
   }
 };
 
-// ../../../node_modules/.pnpm/commander@15.0.0/node_modules/commander/lib/option.js
+// node_modules/.pnpm/commander@15.0.0/node_modules/commander/lib/option.js
 var Option = class {
   /**
    * Initialize a new `Option` with the given `flags` and `description`.
@@ -2733,7 +2733,7 @@ function splitOptionFlags(flags) {
   return { shortFlag, longFlag };
 }
 
-// ../../../node_modules/.pnpm/commander@15.0.0/node_modules/commander/lib/suggestSimilar.js
+// node_modules/.pnpm/commander@15.0.0/node_modules/commander/lib/suggestSimilar.js
 var maxDistance = 3;
 function editDistance(a, b) {
   if (Math.abs(a.length - b.length) > maxDistance)
@@ -2808,7 +2808,7 @@ function suggestSimilar(word, candidates) {
   return "";
 }
 
-// ../../../node_modules/.pnpm/commander@15.0.0/node_modules/commander/lib/command.js
+// node_modules/.pnpm/commander@15.0.0/node_modules/commander/lib/command.js
 var Command = class _Command extends import_node_events.EventEmitter {
   /**
    * Initialize a new `Command`.
@@ -5042,7 +5042,7 @@ function useColor() {
   return void 0;
 }
 
-// ../../../node_modules/.pnpm/commander@15.0.0/node_modules/commander/index.js
+// node_modules/.pnpm/commander@15.0.0/node_modules/commander/index.js
 var program = new Command();
 
 // packages/cli/src/index.ts

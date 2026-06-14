@@ -3,14 +3,25 @@
 **Your Claude Code track record.** Lines added, languages, files, PRs shipped, sessions,
 streaks — parsed from the JSONL logs Claude Code already keeps on your machine.
 
+## Get your card
+
+**In a terminal** — any computer with [Node](https://nodejs.org):
+
 ```
 npx trackrecord
 ```
 
-*The universal install — works on any machine with Node, on every surface, nothing to set
-up, zero network. That's the whole tool.* Prefer the card rendered **inline in Claude
-Code** instead of the terminal? There's an optional
-[plugin](#inline-card-in-claude-code-optional-plugin) for that.
+The front door: zero install, zero network, works anywhere a terminal does.
+
+**In Claude Code** — want the card rendered **inline in chat**? Install the plugin **once**,
+then type `/trackrecord` anytime:
+
+- **Desktop app:** sidebar → **Customize** → **Plugins** → add `get-trackrecord/trackrecord`
+  → install **trackrecord** → restart. *(Don't type `/plugin` in the app — that errors; use
+  the buttons.)*
+- **Terminal / VS Code / JetBrains:** see [Inline card](#inline-card-in-claude-code-optional-plugin) below.
+
+*Phone or web: plugins don't run there — use a terminal or the desktop app.*
 
 Anthropic ships output analytics — lines accepted, PR tagging — only to **Team and
 Enterprise** customers via the Console dashboard. Cost trackers cover what you spent.

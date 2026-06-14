@@ -71,7 +71,7 @@ CODE extensions (the code bucket — this list is part of the contract):
 ## The card template (FROZEN — substitute slots only)
 
 ```html
-<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">Trackrecord card: {{LOC}} lines of code added, {{PRS}} pull requests shipped; top languages {{LANGS}}; {{SESSIONS}} sessions, {{ACTIVE_DAYS}} active days, longest streak {{STREAK}}; top tool {{TOOL}} {{TOOL_COUNT}}; context ceiling hit {{COMPACTIONS}}; {{TOKENS}} total tokens. Dated {{DATE_FROM}} to {{DATE_TO}}. Zero network calls, local parser only. Install with npx trackrecord, run with /trackrecord.</h2>
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">Trackrecord card: {{LOC}} lines of code added, {{PRS}} pull requests shipped; top languages {{LANGS}}; {{SESSIONS}} sessions, {{ACTIVE_DAYS}} active days, longest streak {{STREAK}}; top tool {{TOOL}} {{TOOL_COUNT}}; context ceiling hit {{COMPACTIONS}}; {{TOKENS}} total tokens. Dated {{DATE_FROM}} to {{DATE_TO}}. Zero network calls, local parser only. Run with /trackrecord in Claude Code, or npx trackrecord in a terminal.</h2>
 <div style="container-type:inline-size;background:#f4efe4;color:#211c14;font-family:var(--font-mono);padding:30px 40px 24px;border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);">
 
   <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid #211c14;padding-bottom:8px;">
@@ -109,7 +109,7 @@ CODE extensions (the code bucket — this list is part of the contract):
   </div>
 
   <div style="border-top:2px solid #211c14;margin-top:8px;padding-top:13px;font-size:11px;color:#7a7058;letter-spacing:0.2px;display:flex;justify-content:space-between;align-items:baseline;">
-    <div><span style="color:#8e2a1d;">npx trackrecord</span> to install &nbsp;·&nbsp; <span style="color:#8e2a1d;">/trackrecord</span> to run</div>
+    <div><span style="color:#8e2a1d;">/trackrecord</span> in Claude Code &nbsp;·&nbsp; <span style="color:#8e2a1d;">npx trackrecord</span></div>
     <div style="white-space:nowrap;">zero network calls &nbsp;·&nbsp; local parser only</div>
   </div>
 
